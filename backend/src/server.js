@@ -11,13 +11,20 @@ dotenv.config();
 const app=express();
 const PORT=process.env.PORT || 5001;
 
-connectDB();
-
 // middleware
-app.use(express.json());
+app.use(express.json()); // this middleware will parse JSON bodies: req.body
+
+// simple middleware
+
+// app.use((req, res, next) => {
+//     console.log("We just got a new req");
+//     next();
+// });
 
 app.use("/api/notes",notesRoutes);
 
-app.listen(PORT, ()=>{
+connectDB().then(()=>{
+    app.listen(PORT, ()=>{
     console.log("Server is started on PORT:", PORT);
+});
 });
